@@ -1,0 +1,68 @@
+# !/bin/sh
+
+### BEGIN INIT INFO
+# Provides:             god
+# Required-Start:       $all
+# Required-Stop:        $all
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    God
+### END INIT INFO
+
+NAME=god
+DESC=god
+
+set -e
+
+# Make sure the binary and the config file are present before proceeding
+test -x /usr/bin/god || exit 0
+
+# Create this file and put in a variable called GOD_CONFIG, pointing to
+# your God configuration file
+test -f /etc/default/god && . /etc/default/god
+[ $GOD_CONFIG ] || exit 0
+
+. /lib/lsb/init-functions
+
+RETVAL=0
+
+start()
+{
+  echo -n "Starting $DESC: "
+  su $GOD_USER -c "/usr/bin/god -c $GOD_CONFIG"
+  RETVAL=$?
+  echo "$NAME."
+}
+
+stop()
+{
+  echo "Stopping $DESC:"
+  su $GOD_USER -c "/usr/bin/god terminate"
+  RETVAL=$?
+  echo "$NAME."
+} # end function stop
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  status)
+    su $GOD_USER -c "/usr/bin/god status"
+    RETVAL=$?
+    ;;
+  *)
+    echo "Usage: god {start|stop|restart|status}"
+    exit 1
+    ;;
+esac
+
+exit $RETVAL
+
+                                                                           

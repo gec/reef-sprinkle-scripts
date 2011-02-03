@@ -1,0 +1,75 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:     qpidd
+# Required-Start:   $syslog
+# Required-Stop:    $syslog
+# Should-Start:     $local_fs
+# Should-Stop:      $local_fs
+# Default-Start:    2 3 4 5
+# Default-Stop:     0 1 6
+# Short-Description:    AMQP Server
+# Description:      AMQP Server
+### END INIT INFO
+
+
+PATH=/opt/redis/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=`which qpidd`
+PORT=`echo $0 | grep -Eo "qpid[0-9]+" | grep -Eo "[0-9]+"`
+if [ -z $PORT ]
+then
+  PORT=5672
+  echo "link did not have the format of qpid### where ### is the port number to run as, using default"
+fi
+echo "using port: $PORT"
+NAME=qpidd$PORT
+DESC=qpidd
+USER=qpid
+DBDIR=/var/db/qpidd.$PORT
+PIDFILE=$DBDIR/daemon.pid
+LOGFILE=/var/log/qpidd.$PORT.log
+DAEMON_ARGS="--port $PORT --auth no --data-dir $DBDIR --pid-dir $DBDIR --log-to-file $LOGFILE"
+
+test -x $DAEMON || exit 0
+test -x $DAEMONBOOTSTRAP || exit 0
+
+set -e
+
+case "$1" in
+  start)
+    echo -n "Starting $DESC..."
+    touch $LOGFILE
+    mkdir -p $DBDIR
+    chown $USER:$USER $LOGFILE $DBDIR
+    if start-stop-daemon --start -v --umask 007 --chuid $USER:$USER --name $NAME --startas $DAEMON -- $DAEMON_ARGS -d
+    then
+        echo "OK."
+    else
+        echo "failed"
+    fi
+    ;;
+  stop)
+    echo "Stopping $DESC..."
+    if [ ! `qpidd -c --pid-dir $DBDIR --port $PORT` ]
+    then
+      echo "no pid failed"
+    else
+      if `qpidd -q --pid-dir $DBDIR --port $PORT`
+      then
+        echo "Stopped."
+      else
+        echo "failed"
+      fi
+    fi
+    ;;
+
+  restart|force-reload)
+    ${0} stop
+    ${0} start
+    ;;
+  *)
+    echo "Usage: /etc/init.d/$NAME {start|stop|restart|force-reload}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0
