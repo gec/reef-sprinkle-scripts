@@ -12,7 +12,7 @@ After installing sprinkle and preparing a "target box" with a clean copy of ubun
     # change directory to where you checked out reef-sprinkle-scripts
     cd ~/reef-sprinkle-scripts
     
-    nano deploy.rb # change role: reef_node ip address value to target box.
+    nano deploy.rb # change role: target_box ip address value to point to target box
     sprinkle -s reef_node.rb -v
 
 This may take a long time, i've found it useful to be logged onto the box and run htop to see that progress is being made lots of applications should be installed and if anything fails we need to look at the error messages returned to us. There are a few issue that can be fixed by running again, try running it a second time with the -v flag if there are problems (but please post the errors anyways)
@@ -20,10 +20,26 @@ This may take a long time, i've found it useful to be logged onto the box and ru
 If the process completes succesfully we have now installed all of the core software to run a reef_node, now we need to install the current reef software on that note using capistrano, please see that README.txt for those instructions.
 
 ## Configurations:
-We have a couple of cofigurations we have prepared:
+We have a couple of cofigurations we have prepared, please install the most minimal for your needs. In paticular it will try to install the sun-jvm, which may lead to serious issues if you have another java installed:
 
-* reef_node.rb:       minimal setup to run a reef node (recommended for most users)
+* qpid_server.rb:     builds and installs qpid broker and boost 1_45 from source
+  - qpid       (apache messaging broker, running on standard port 5672)
+  - qpid-tools (python tools to see qpid status, installed to /usr/bin/qpid-*)
+
+* reef_node.rb:       minimal setup to run a reef node (recommended for most users) 
+  - everything from qpid_server
+  - postgresql (database)
+  - sun-jdk    (java vm can be commented out if there is already java on the machine)
+  - screen     (utility to do multiple windows in single console)
+  
 * reef_build_node.rb: minimal setup to rebuild reef from source
+  - everything from reef_node
+  - protoc     (protobuf compiler)
+  - sun-jdk    (need java and xjc, if both of those are on path can be commented out)
+  - qpid daemon(running on a differnt port for testing 5673)
+  - maven3     (from "source" not the ubunutu package which is quite old)
+  
+If there is any doubt what is going to be installed, adding the "-c -t" arguments will have screen tell you a bit about the package hierarchy and then have it "dry run" the install and just check which packages it would install.
 
 ## Preparing Target Box:
 

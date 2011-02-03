@@ -1,7 +1,7 @@
 
 require File.join(File.dirname(__FILE__),'common.rb')
 
-policy :reef_build_node, :roles => [:reef_build_node] do
+policy :reef_build_node, :roles => [:target_box] do
   requires :screen
   requires :protoc
   requires :java
