@@ -19,9 +19,11 @@ wget --no-check-certificate -P bindings/qmf/ruby/ http://github.com/apache/qpid/
 BOOST_DIR=$TOOLS_HOME/boostlib/boost_1_41
 
 CPPFLAGS="-I$BOOST_DIR/include"
-if [ `lsb_release -cs` = "lucid" ]; then
+GCC_VERSION_4_3_PLUS=`g++ --version | grep -c 4.3.`
+if [ $GCC_VERSION_4_3_PLUS = 1 ]; then
   CPPFLAGS="$CPPFLAGS -Wno-ignored-qualifiers -fno-strict-aliasing"
 fi
+
 
 ./configure CPPFLAGS="$CPPFLAGS" LIBS="-lboost_system" LDFLAGS="-L$BOOST_DIR/Linux_i686" --enable-static=yes --libdir=/usr/lib
 make install
