@@ -1,7 +1,7 @@
 # Reef Sprinkle Scripts
 Sprinkle (https://github.com/crafterm/sprinkle) is a ruby tool that automates the installation of software packages that makes installing and configuring a suite of software onto a server a (hopefully) few step affair. This readme takes you through the setup of a reef_node on totally clean ubunutu 10.0.1 install. Sprinkle is only  responsible for installing and setting up the server level components: qpid, mysql, apache, etc.  Deploying the current reef system is done using a different tool and described in that README.txt 
 
-We are supplying some scripts we use internally to deploy new test and virutal node boxes to help the community get started on linux, not as the only way to setup a reef node. Issues can be opened and may be responded to but we are not in the business of supporting these scripts. 
+We are supplying some scripts we use internally to deploy new test and virutal node boxes to help the community get started on linux, not as the only way to setup a reef node. Issues can be opened and may be responded to but we are not generally supporting these scripts. 
 
 ## Preparing Target Box:
 
@@ -98,7 +98,7 @@ After installing sprinkle and preparing a "target box" with a clean copy of ubun
 
     # install git and check out the sprinkle files
     sudo apt-get install git
-    git co git://github.com/gec/reef-sprinkle-scripts.git
+    git clone git://github.com/gec/reef-sprinkle-scripts.git
     # change directory to where you checked out reef-sprinkle-scripts
     cd ~/reef-sprinkle-scripts
     

@@ -19,7 +19,7 @@ wget --no-check-certificate -P bindings/qmf/ruby/ http://github.com/apache/qpid/
 BOOST_DIR=$TOOLS_HOME/boostlib/boost_1_41
 
 CPPFLAGS="-I$BOOST_DIR/include"
-GCC_VERSION_4_3_PLUS=`g++ --version | grep -c 4.3.`
+GCC_VERSION_4_3_PLUS=`g++ --version | grep -c 4.`
 if [ $GCC_VERSION_4_3_PLUS = 1 ]; then
   CPPFLAGS="$CPPFLAGS -Wno-ignored-qualifiers -fno-strict-aliasing"
 fi

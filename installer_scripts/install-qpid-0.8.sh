@@ -17,7 +17,7 @@ cd qpidc-0.8
 BOOST_DIR=$TOOLS_HOME/boostlib/boost_1_45
 
 CPPFLAGS="-I$BOOST_DIR/include"
-GCC_VERSION_4_3_PLUS=`g++ --version | grep -c 4.3.`
+GCC_VERSION_4_3_PLUS=`g++ --version | grep -c 4.`
 if [ $GCC_VERSION_4_3_PLUS = 1 ]; then
   CPPFLAGS="$CPPFLAGS -Wno-ignored-qualifiers -fno-strict-aliasing"
 fi
