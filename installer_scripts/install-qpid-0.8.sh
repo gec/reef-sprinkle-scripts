@@ -7,7 +7,7 @@ if [ -z "$TOOLS_HOME" ]; then
 fi
 
 if [ ! -e qpid-cpp-0.8.tar.gz ]; then
-  wget http://www.apache.org/dist/qpid/0.8/qpid-cpp-0.8.tar.gz
+  wget http://archive.apache.org/dist/qpid/0.8/qpid-cpp-0.8.tar.gz
 fi
 if [ ! -d qpidc-0.8 ]; then
   tar -xf qpid-cpp-0.8.tar.gz

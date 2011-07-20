@@ -56,7 +56,7 @@ package :qpid_commands do
     pre :install, "rm -f /usr/local/sbin/qpid-*"
   end
 
-  source "http://apache.deathculture.net//qpid/0.8/qpid-0.8.tar.gz", :custom_dir => 'qpid-0.8' do
+  source "http://archive.apache.org/dist/qpid/0.8/qpid-0.8.tar.gz", :custom_dir => 'qpid-0.8' do
     
     custom_install "PPATH=`pwd` && cd tools/src/py && for f in *; do echo \"PYTHONPATH=$PPATH/python:$PPATH/extras/qmf/src/py python $PPATH/tools/src/py/$f \\$@\" | sudo tee /usr/local/sbin/$f; sudo chmod +x /usr/local/sbin/$f; done"
     
