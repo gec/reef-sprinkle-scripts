@@ -1,8 +1,8 @@
-package :java do 
+package :java_sun do
   
   apt('python-software-properties')
 
-  apt('sun-java6-jdk') do 
+  apt('sun-java6-jdk') do
     pre :install, 'echo "sun-java6-jdk shared/accepted-sun-dlj-v1-1 boolean true" | sudo -E debconf-set-selections'
     pre :install, "sudo add-apt-repository 'deb http://archive.canonical.com/ lucid partner' && sudo apt-get update"
   end
@@ -12,6 +12,17 @@ package :java do
     has_executable 'xjc'
   end  
   
+end
+
+package :java do
+
+  apt('openjdk-6-jdk')
+
+  verify do
+    has_executable 'java'
+    has_executable 'xjc'
+  end
+
 end
 
 package :mvn3 do
