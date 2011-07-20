@@ -15,14 +15,14 @@ package :java do
 end
 
 package :mvn3 do
-  source "http://apache.mirrors.pair.com//maven/binaries/apache-maven-3.0.1-bin.tar.gz", :custom_dir => 'apache-maven-3.0.1' do
+  source "http://mirrors.ibiblio.org/apache//maven/binaries/apache-maven-3.0.3-bin.tar.gz", :custom_dir => 'apache-maven-3.0.3' do
     pre :install, "sudo rm -f `which mvn`"
     custom_install "PPATH=`pwd` JHOME=$JAVA_HOME && echo \"JAVA_HOME=$JHOME $PPATH/bin/mvn \\$@\" | sudo tee /usr/local/sbin/mvn && sudo chmod +x /usr/local/sbin/mvn"
   end
   
   verify do
     has_executable 'mvn'
-    has_executable_with_version('mvn', '3.0.1', '--version')
+    has_executable_with_version('mvn', '3.0.3', '--version')
   end  
 end
 
