@@ -50,22 +50,28 @@ end
 
 package :dnp3_library_32 do
 
-  download_url = "http://dnp3.googlecode.com/files/libdnp3java-0.9.4-lucid-x32.tar.gz"
-  library_name = "libdnp3java.so.0.9.4"
+  download_name = "libdnp3java.so.1.0.0-RC1-lucid-x32"
+  download_url = "http://dnp3.googlecode.com/files/#{download_name}"
+  library_name = "libdnp3java.so.1.0.0"
   
-  source download_url do
-    custom_install 'sudo mv #{library_name} /lib'
-    #custom_install 'sudo mv #{library_name} /lib && sudo ln -s /lib/#{library_name} /lib/libdnp3java.so'
+  noop do
+    pre :install, "wget #{download_url}"
+    pre :install, "sudo mv #{download_name} /lib/#{library_name} && sudo ln -s /lib/#{library_name} /lib/libdnp3java.so"
+  end
+  
+  verify do
+    has_file "/lib/#{library_name}"
+    has_file "/lib/libdnp3java.so"
   end
 end
 
-package :dnp3_library_64 do
-
-  download_url = "http://dnp3.googlecode.com/files/libdnp3java-0.9.4-lucid-x64.tar.gz"
-  library_name = "libdnp3java.so.0.9.4"
-  
-  source download_url do
-    custom_install 'sudo mv #{library_name} /lib'
-    #custom_install 'sudo mv #{library_name} /lib && sudo ln -s /lib/#{library_name} /lib/libdnp3java.so'
-  end
-end
+#package :dnp3_library_64 do
+#
+#  download_url = "http://dnp3.googlecode.com/files/libdnp3java-0.9.4-lucid-x64.tar.gz"
+#  library_name = "libdnp3java.so.0.9.4"
+#  
+#  source download_url do
+#    custom_install 'sudo mv #{library_name} /lib'
+#    #custom_install 'sudo mv #{library_name} /lib && sudo ln -s /lib/#{library_name} /lib/libdnp3java.so'
+#  end
+#end
