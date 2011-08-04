@@ -27,7 +27,7 @@ USER=qpid
 DBDIR=/var/db/qpidd.$PORT
 PIDFILE=$DBDIR/daemon.pid
 LOGFILE=/var/log/qpidd.$PORT.log
-DAEMON_ARGS="--port $PORT --auth no --data-dir $DBDIR --pid-dir $DBDIR --log-to-file $LOGFILE"
+DAEMON_ARGS="--port $PORT --data-dir $DBDIR --pid-dir $DBDIR --log-to-file $LOGFILE"
 
 test -x $DAEMON || exit 0
 test -x $DAEMONBOOTSTRAP || exit 0

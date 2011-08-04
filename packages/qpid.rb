@@ -1,31 +1,61 @@
-package :qpidd_deps do
-  apt %w(build-essential ruby uuid-dev libtool swig libsasl2-dev sasl2-bin)
-end
 
 package :qpidd do
-  requires :qpidd_deps, :boost_1_45
-  transfer "#{File.dirname(__FILE__)}/../installer_scripts/install-qpid-0.8.sh", 'install-qpid-0.8.sh' do
-    pre :install, "sudo killall -9 qpidd || true"
-    post :install, "sudo chmod +x install-qpid-0.8.sh"
-    post :install, "sudo TOOLS_HOME=/usr/tools ./install-qpid-0.8.sh"
+  apt 'python-software-properties'
+  
+  apt 'qpid-cpp' do 
+    pre :install, "sudo apt-add-repository ppa:kb3gtn/qpid && sudo apt-get update"
   end
 
   verify do
     has_executable 'qpidd'
-    has_executable_with_version('qpidd', '0.8', '--version')
+    has_executable_with_version('qpidd', '0.10', '--version')
   end
 end
 
 package :qpidd_service do 
-  requires :qpidd
+  requires :qpidd, :qpid_ssl_support
+
   transfer "#{File.dirname(__FILE__)}/../config/qpid", 'qpid' do
     pre :install, "sudo adduser qpid --system --no-create-home --disabled-password --disabled-login --group"
     post :install, "sudo mv qpid /etc/init.d/qpid"
     post :install, "sudo chmod +x /etc/init.d/qpid"
   end
+  
+  transfer "#{File.dirname(__FILE__)}/../config/qpidd.conf", 'qpidd.conf' do
+    post :install, "sudo mv qpidd.conf /etc/qpidd.conf"
+    post :install, "sudo chmod 400 /etc/qpidd.conf"
+    post :install, "sudo chown qpid:qpid /etc/qpidd.conf"
+  end
 
   verify do
     has_file '/etc/init.d/qpid'
+    
+  end
+end
+
+package :qpid_ssl_support do
+  apt ['sasl2-bin', 'libnss3-tools']
+
+  transfer "#{File.dirname(__FILE__)}/../installer_scripts/make_keys.sh", 'make_keys.sh' do
+    post :install, "sudo chmod +x make_keys.sh"
+  end
+  transfer "#{File.dirname(__FILE__)}/../installer_scripts/make_users.sh", 'make_users.sh' do
+    post :install, "sudo chmod +x make_users.sh"
+  end
+  transfer "#{File.dirname(__FILE__)}/../installer_scripts/configure_qpid_ssl.sh", 'configure_qpid_ssl.sh' do
+    post :install, "sudo chmod +x configure_qpid_ssl.sh"
+  end
+  transfer "#{File.dirname(__FILE__)}/../config/qpidd.conf-ssl", 'qpidd.conf-ssl'
+  transfer "#{File.dirname(__FILE__)}/../config/acl.conf", 'acl.conf'
+  
+  verify do
+
+    has_file '~/acl.conf'
+
+    has_file '~/qpidd.conf-ssl'
+    
+    has_file '~/make_keys.sh'
+    has_file '~/make_users.sh'
   end
 end
 
@@ -49,7 +79,36 @@ end
   end
 end
 
-package :qpid_commands do
+package :qpid_commands do 
+  apt %w( qpid-python qpid-qmf qpid-tools )
+  
+  verify do 
+    has_file "/usr/bin/qpid-stat"
+    file_contains '/usr/bin/qpid-stat', '@'
+    has_executable "qpid-stat"
+    has_executable "qpid-tool"
+  end
+end
+
+package :qpidd_deps do
+  apt %w(build-essential ruby uuid-dev libtool swig libsasl2-dev sasl2-bin)
+end
+
+package :qpidd_from_source do
+  requires :qpidd_deps, :boost_1_45
+  transfer "#{File.dirname(__FILE__)}/../installer_scripts/install-qpid-0.8.sh", 'install-qpid-0.8.sh' do
+    pre :install, "sudo killall -9 qpidd || true"
+    post :install, "sudo chmod +x install-qpid-0.8.sh"
+    post :install, "sudo TOOLS_HOME=/usr/tools ./install-qpid-0.8.sh"
+  end
+
+  verify do
+    has_executable 'qpidd'
+    has_executable_with_version('qpidd', '0.8', '--version')
+  end
+end
+
+package :qpid_commands_from_source do
   noop do
     # cleanup the previous install attempts
     pre :install, "rm -f /usr/local/sources/qpid-python-0.8.tar.gz"

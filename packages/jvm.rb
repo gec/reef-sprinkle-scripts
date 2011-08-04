@@ -10,6 +10,7 @@ package :java_sun do
   verify do
     has_executable 'java'
     has_executable 'xjc'
+    has_executable 'keytool'
   end  
   
 end
@@ -21,6 +22,7 @@ package :java do
   verify do
     has_executable 'java'
     has_executable 'xjc'
+    has_executable 'keytool'
   end
 
 end
