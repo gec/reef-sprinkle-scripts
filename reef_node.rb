@@ -12,4 +12,4 @@ policy :reef_node, :roles => [:target_box] do
   requires :qpid_commands
 end
 
-deploy
+run_deployment

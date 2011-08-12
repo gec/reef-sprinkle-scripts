@@ -3,7 +3,7 @@ Dir["#{File.dirname(__FILE__)}/packages/*.rb"].each do |f|
   require f
 end
 
-def deploy
+def run_deployment
   deployment do
   
     # mechanism for deployment

@@ -13,7 +13,7 @@ package :qpidd do
 end
 
 package :qpidd_service do 
-  requires :qpidd, :qpid_ssl_support
+  requires :qpidd
 
   transfer "#{File.dirname(__FILE__)}/../config/qpid", 'qpid' do
     pre :install, "sudo adduser qpid --system --no-create-home --disabled-password --disabled-login --group"
@@ -30,32 +30,6 @@ package :qpidd_service do
   verify do
     has_file '/etc/init.d/qpid'
     
-  end
-end
-
-package :qpid_ssl_support do
-  apt ['sasl2-bin', 'libnss3-tools']
-
-  transfer "#{File.dirname(__FILE__)}/../installer_scripts/make_keys.sh", 'make_keys.sh' do
-    post :install, "sudo chmod +x make_keys.sh"
-  end
-  transfer "#{File.dirname(__FILE__)}/../installer_scripts/make_users.sh", 'make_users.sh' do
-    post :install, "sudo chmod +x make_users.sh"
-  end
-  transfer "#{File.dirname(__FILE__)}/../installer_scripts/configure_qpid_ssl.sh", 'configure_qpid_ssl.sh' do
-    post :install, "sudo chmod +x configure_qpid_ssl.sh"
-  end
-  transfer "#{File.dirname(__FILE__)}/../config/qpidd.conf-ssl", 'qpidd.conf-ssl'
-  transfer "#{File.dirname(__FILE__)}/../config/acl.conf", 'acl.conf'
-  
-  verify do
-
-    has_file '~/acl.conf'
-
-    has_file '~/qpidd.conf-ssl'
-    
-    has_file '~/make_keys.sh'
-    has_file '~/make_users.sh'
   end
 end
 

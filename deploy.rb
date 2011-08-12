@@ -8,7 +8,7 @@ ssh_options[:keys] = [File.join(ENV["HOME"], ".ssh", "id_rsa")]
 set :user, `whoami`.strip
 
 # machine we want to install the reef node software stack on
-role :target_box, "192.168.100.34"
+role :target_box, "127.0.0.1"
 
 # we can also have a list of machines to install them all in parrell
 #role :target_box, "192.168.100.80", "192.168.100.70", "192.168.100.14"

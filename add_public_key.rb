@@ -8,4 +8,4 @@ policy :add_public_key, :roles => [:target_box] do
   requires :add_my_key_to_authorized
 end
 
-deploy
+run_deployment

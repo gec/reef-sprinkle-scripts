@@ -7,4 +7,4 @@ policy :qpid_server, :roles => [:target_box] do
   requires :qpid_commands
 end
 
-deploy
+run_deployment
