@@ -29,6 +29,14 @@ package :screen do
   end
 end
 
+package :htop do
+  apt 'htop'
+  
+  verify do
+    has_executable 'htop'
+  end
+end
+
 package :build_essentials do
   description 'Build tools'
   apt 'build-essential' do
