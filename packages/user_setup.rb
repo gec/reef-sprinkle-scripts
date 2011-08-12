@@ -8,7 +8,7 @@ else
     package "create_user_#{user}" do
       noop do
         pre :install, "groupadd -f #{user}"
-        pre :install, "useradd -m -g #{user} #{user} || true"
+        pre :install, "adduser -s /bin/bash -m -g #{user} #{user} || true"
       end
       verify do
         has_file "/home/#{user}/.bashrc"
