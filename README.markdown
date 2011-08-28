@@ -18,7 +18,7 @@ Install ubutnutu 10.0.1 with only OpenSSH server on the target machine. You will
 
 ## Install Ruby and Gem (locally):
 
-On development machine (machine you will be deploying from) we need to be able to run the ruby gem sprinkle, follow these steps if you dont allready have a working "gem" command on your path. But please dont install the apt-get version of gem, you will live to regret it.
+On development machine (machine you will be deploying from) we need to be able to run the ruby gem sprinkle, follow these steps if you don't allready have a working "gem" command on your path. But please don't install the apt-get version of gem, you will live to regret it.
 
     sudo apt-get install ruby ruby1.8 ruby1.8-dev libopenssl-ruby1.8 wget
 
@@ -107,7 +107,7 @@ After installing sprinkle and preparing a "target box" with a clean copy of ubun
 
 This may take a long time, especially if packages are being compiled from source (qpid in particular), i've found it useful to be logged onto the box and run htop to see that progress is being made lots of applications should be installed and if anything fails we need to look at the error messages returned to us. There are a few issue that can be fixed by running again, try running it a second time with the -v flag if there are problems (but please post the errors anyways)
 
-If the process completes succesfully we have now installed all of the "server level" software. Note that though we may have installed a database server, that doesn't mean we have setup the users or database tables necessary for any specific installation of reef, make sure to read the documents that came with your distribution.
+If the process completes successfully we have now installed all of the "server level" software. Note that though we may have installed a database server, that doesn't mean we have setup the users or database tables necessary for any specific installation of reef, make sure to read the documents that came with your distribution.
 
 # Troubleshooting:
 
