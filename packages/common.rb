@@ -49,7 +49,8 @@ package :build_essentials do
   end
 end
 
-package :protoc do 
+package :protoc do
+  requires :build_essentials
   source "http://protobuf.googlecode.com/files/protobuf-2.3.0.tar.gz" do
     post :install, "ldconfig /usr/local/lib/"
   end
