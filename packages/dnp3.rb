@@ -50,7 +50,7 @@ end
 
 package :dnp3_library_32 do
 
-  download_name = "libdnp3java.so.1.0.0-RC1-lucid-x32"
+  download_name = "libdnp3java.so.1.0.0-lucid-x32..tar.gz"
   download_url = "http://dnp3.googlecode.com/files/#{download_name}"
   library_name = "libdnp3java.so.1.0.0"
   
